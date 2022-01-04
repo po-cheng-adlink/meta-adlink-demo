@@ -143,6 +143,7 @@ RDEPENDS_packagegroup-adlink-utils = " \
     libstdc++ \
     libgpiod \
     libsocketcan \
+    lshw \
     make \
     minicom \
     mmc-utils \
