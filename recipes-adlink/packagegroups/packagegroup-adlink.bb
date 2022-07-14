@@ -19,6 +19,7 @@ PACKAGES = "packagegroup-adlink \
             packagegroup-adlink-utils \
             packagegroup-adlink-debug \
             packagegroup-adlink-ci \
+            packagegroup-adlink-net \
 "
 
 #
@@ -113,20 +114,16 @@ RDEPENDS_packagegroup-adlink-utils = " \
     bash \
     bzip2 \
     pbzip2 \
-    can-utils \
     coreutils \
     cmake \
     curl \
-    dnsmasq \
     dtc \
     e2fsprogs-mke2fs \
     e2fsprogs-resize2fs \
     evtest \
-    ethtool \
     fbset \
     fb-test \
     fbida \
-    gdb \
     git \
     gzip \
     haveged \
@@ -134,19 +131,12 @@ RDEPENDS_packagegroup-adlink-utils = " \
     htop \
     i2c-tools \
     ifupdown \
-    inetutils \
     imagemagick \
-    iperf3 \
-    iptables \
-    iproute2 \
-    iproute2-tc \
     libstdc++ \
     libgpiod \
-    libsocketcan \
     make \
     minicom \
     mmc-utils \
-    net-tools \
     parted \
     picocom \
     python3 \
@@ -155,6 +145,24 @@ RDEPENDS_packagegroup-adlink-utils = " \
     wget \
     ${@bb.utils.contains('PACKAGE_CLASSES', 'package_rpm', 'dnf', '', d)} \
     ${@bb.utils.contains('IMAGE_FEATURES', 'ssh-server-openssh', 'packagegroup-core-ssh-openssh openssh openssh-sftp-server', '', d)} \
+"
+
+#
+# packages added by adlink basic network tools
+#
+SUMMARY_packagegroup-adlink-net = "Adlink basic network tools"
+RDEPENDS_packagegroup-adlink-net = " \
+    dnsmasq \
+    can-utils \
+    libsocketcan \
+    inetutils \
+    iperf3 \
+    iptables \
+    iproute2 \
+    iproute2-tc \
+    bridge-utils \
+    net-tools \
+    ethtool \
 "
 
 #
@@ -171,6 +179,8 @@ RDEPENDS_packagegroup-adlink-ci = " \
 #
 SUMMARY_packagegroup-adlink-debug = "Adlink Debugging Support"
 RDEPENDS_packagegroup-adlink-debug = " \
+    gdb \
+    lsof \
     strace \
     tcpdump \
     phytool \
