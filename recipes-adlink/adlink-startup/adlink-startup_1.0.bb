@@ -15,15 +15,15 @@ SRC_URI = "\
 inherit pkgconfig systemd update-rc.d useradd
 
 SYSTEMD_PACKAGES += "${PN}"
-SYSTEMD_SERVICE_${PN} = "adlink-startup.service"
-SYSTEMD_AUTO_ENABLE_${PN} = "enable"
+SYSTEMD_SERVICE:${PN} = "adlink-startup.service"
+SYSTEMD_AUTO_ENABLE:${PN} = "enable"
 
 INITSCRIPT_NAME = "adlink-startup"
 INITSCRIPT_PARAMS = "start 99 2 3 4 5 . stop 19 0 1 6 ."
 
 USERADD_PACKAGES = "${PN}"
-GROUPADD_PARAM_${PN} = "root"
-USERADD_PARAM_${PN} = "--system -M -d /var/lib/adlink -s /bin/false -g root root"
+GROUPADD_PARAM:${PN} = "root"
+USERADD_PARAM:${PN} = "--system -M -d /var/lib/adlink -s /bin/false -g root root"
 
 do_install() {
   if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
@@ -47,7 +47,7 @@ do_install() {
   fi
 }
 
-FILES_${PN} += "\
+FILES:${PN} += "\
     ${systemd_unitdir}/system-preset \
     ${sysconfdir}/init.d \
     ${datadir}/dbus-1/system-services/com.intel.adlink.Tabrmd.service \

@@ -25,7 +25,7 @@ PACKAGES = "packagegroup-adlink \
 #
 # packagegroup-adlink contain stuff needed for adlink build images
 #
-RDEPENDS_packagegroup-adlink = " \
+RDEPENDS:packagegroup-adlink = " \
     packagegroup-adlink-tools \
     ${@bb.utils.contains('DISTRO_FEATURES', 'sensors', 'packagegroup-adlink-sensors', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'benchmarks', 'packagegroup-adlink-benchmarks', '', d)} \
@@ -39,8 +39,8 @@ RDEPENDS_packagegroup-adlink = " \
 #
 # packages added by adlink sensors
 #
-SUMMARY_packagegroup-adlink-sensors = "Adlink Sensors Support"
-RDEPENDS_packagegroup-adlink-sensors = " \
+SUMMARY:packagegroup-adlink-sensors = "Adlink Sensors Support"
+RDEPENDS:packagegroup-adlink-sensors = " \
     lmsensors-fancontrol \
     lmsensors-libsensors \
     lmsensors-pwmconfig \
@@ -50,8 +50,8 @@ RDEPENDS_packagegroup-adlink-sensors = " \
     lmsensors-sensorsdetect \
 "
 
-SUMMARY_packagegroup-adlink-benchmarks = "Adlink Benchmarks Support"
-RDEPENDS_packagegroup-adlink-benchmarks = " \
+SUMMARY:packagegroup-adlink-benchmarks = "Adlink Benchmarks Support"
+RDEPENDS:packagegroup-adlink-benchmarks = " \
     glmark2 \
     memtester \
     fio \
@@ -66,8 +66,8 @@ RDEPENDS_packagegroup-adlink-benchmarks = " \
 #
 # packages added by adlink tools for wifi
 #
-SUMMARY_packagegroup-adlink-wifi = "Adlink wifi Support"
-RDEPENDS_packagegroup-adlink-wifi = " \
+SUMMARY:packagegroup-adlink-wifi = "Adlink wifi Support"
+RDEPENDS:packagegroup-adlink-wifi = " \
     iperf3 \
     iw \
     rfkill \
@@ -81,8 +81,8 @@ RDEPENDS_packagegroup-adlink-wifi = " \
 #
 # packages added by adlink tools for bluetooth
 #
-SUMMARY_packagegroup-adlink-bluetooth = "Adlink bluetooth Support"
-RDEPENDS_packagegroup-adlink-bluetooth = " \
+SUMMARY:packagegroup-adlink-bluetooth = "Adlink bluetooth Support"
+RDEPENDS:packagegroup-adlink-bluetooth = " \
     rfkill \
     bluez5 \
 "
@@ -92,8 +92,8 @@ RDEPENDS_packagegroup-adlink-bluetooth = " \
 #
 PKG_TPM := "${@'packagegroup-security-tpm2' if 'meta-tpm' in d.getVar('BBLAYERS') else ''}"
 PKG_SEMA := "${@'sema' if 'meta-adlink-sema' in d.getVar('BBLAYERS') else ''}"
-SUMMARY_packagegroup-adlink-tools = "Adlink Tools Support"
-RDEPENDS_packagegroup-adlink-tools = " \
+SUMMARY:packagegroup-adlink-tools = "Adlink Tools Support"
+RDEPENDS:packagegroup-adlink-tools = " \
     adlink-startup \
     mraa \
     mraa-dev \
@@ -107,8 +107,8 @@ RDEPENDS_packagegroup-adlink-tools = " \
     ${PKG_TPM} \
 "
 
-SUMMARY_packagegroup-adlink-utils = "Adlink Utils Support"
-RDEPENDS_packagegroup-adlink-utils = " \
+SUMMARY:packagegroup-adlink-utils = "Adlink Utils Support"
+RDEPENDS:packagegroup-adlink-utils = " \
     alsa-utils \
     alsa-tools \
     bash \
@@ -150,8 +150,8 @@ RDEPENDS_packagegroup-adlink-utils = " \
 #
 # packages added by adlink basic network tools
 #
-SUMMARY_packagegroup-adlink-net = "Adlink basic network tools"
-RDEPENDS_packagegroup-adlink-net = " \
+SUMMARY:packagegroup-adlink-net = "Adlink basic network tools"
+RDEPENDS:packagegroup-adlink-net = " \
     dnsmasq \
     can-utils \
     libsocketcan \
@@ -168,8 +168,8 @@ RDEPENDS_packagegroup-adlink-net = " \
 #
 # packages added by adlink continuous integration
 #
-SUMMARY_packagegroup-adlink-ci = "Adlink Continuous Integration Support"
-RDEPENDS_packagegroup-adlink-ci = " \
+SUMMARY:packagegroup-adlink-ci = "Adlink Continuous Integration Support"
+RDEPENDS:packagegroup-adlink-ci = " \
     python3 \
     python3-robotframework \
 "
@@ -177,8 +177,8 @@ RDEPENDS_packagegroup-adlink-ci = " \
 #
 # packages added by adlink debugging support
 #
-SUMMARY_packagegroup-adlink-debug = "Adlink Debugging Support"
-RDEPENDS_packagegroup-adlink-debug = " \
+SUMMARY:packagegroup-adlink-debug = "Adlink Debugging Support"
+RDEPENDS:packagegroup-adlink-debug = " \
     gdb \
     lsof \
     strace \

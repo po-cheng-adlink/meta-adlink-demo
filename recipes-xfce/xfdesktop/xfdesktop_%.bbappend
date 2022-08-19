@@ -3,15 +3,15 @@ SECTION = "x11/base"
 AUTHOR = "Dinesh kumar"
 LICENSE = "CLOSED"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-SRC_URI_append = " file://0001-Added-Adlink-wallpaper.patch \
+SRC_URI:append = " file://0001-Added-Adlink-wallpaper.patch \
 		   file://adlink.jpg \
 		   file://0002-Adlink-Default-JPG-file.patch \	
 "
  
-do_configure_append() {
+do_configure:append() {
  cp -a ${WORKDIR}/adlink.jpg  ${WORKDIR}/xfdesktop-4.14.2/backgrounds 
 }
 
-FILES_${PN} += "${datadir}/backgrounds"
+FILES:${PN} += "${datadir}/backgrounds"
