@@ -31,7 +31,7 @@ do_install() {
     if ${@bb.utils.contains('MACHINE', 'intel-corei7-64', 'true', 'false', d)}; then
       install -m 0755 ${WORKDIR}/adlink-startup-intel ${D}${sbindir}/${INITSCRIPT_NAME}
     fi
-    if ${@bb.utils.contains_any('MACHINE', 'lec-imx8m lec-imx8mp', 'true', 'false', d)}; then
+    if ${@bb.utils.contains_any('MACHINE', 'lec-imx8m lec-imx8mp lec-imx8mm', 'true', 'false', d)}; then
       install -m 0755 ${WORKDIR}/adlink-startup-imx8 ${D}${sbindir}/${INITSCRIPT_NAME}
     fi
     install -d "${D}${systemd_unitdir}/system"
@@ -41,7 +41,7 @@ do_install() {
     if ${@bb.utils.contains('MACHINE', 'intel-corei7-64', 'true', 'false', d)}; then
       install -m 0755 ${WORKDIR}/adlink-startup-intel ${D}${sysconfdir}/init.d/${INITSCRIPT_NAME}
     fi
-    if ${@bb.utils.contains_any('MACHINE', 'lec-imx8m lec-imx8mp', 'true', 'false', d)}; then
+    if ${@bb.utils.contains_any('MACHINE', 'lec-imx8m lec-imx8mp lec-imx8mm', 'true', 'false', d)}; then
       install -m 0755 ${WORKDIR}/adlink-startup-imx8 ${D}${sysconfdir}/init.d/${INITSCRIPT_NAME}
     fi
   fi
@@ -53,5 +53,7 @@ FILES_${PN} += "\
     ${datadir}/dbus-1/system-services/com.intel.adlink.Tabrmd.service \
     ${sbindir}/adlink-startup \
     ${systemd_unitdir}/system/adlink-startup.service \
+  /usr \
+  /usr/sbin \
 "
 
