@@ -3,7 +3,7 @@ SECTION = "x11/base"
 AUTHOR = "Dinesh kumar"
 LICENSE = "CLOSED"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
 SRC_URI:append = " file://0001-Added-Adlink-wallpaper.patch \
 		   file://adlink.jpg \

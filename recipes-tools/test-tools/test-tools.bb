@@ -13,7 +13,7 @@ SRC_URI = "\
 	file://UTest.sh \
 "
 
-SRC_URI_append:lec-imx8mp = " \
+SRC_URI:append:lec-imx8mp = " \
 	file://set_mac_address.c \
 	file://hwbom_id.sh \
 "
@@ -37,7 +37,7 @@ do_install() {
     install -m 0755 ${WORKDIR}/UTest.sh ${D}/usr${base_bindir}/
 }
  
-do_install_append:lec-imx8mp() {
+do_install:append:lec-imx8mp() {
 	install -m 0755 ${WORKDIR}/hwbom_id.sh ${D}/usr${base_bindir}/
 	install -m 0755 ${WORKDIR}/set_mac_address ${D}/usr${base_bindir}/
 }
