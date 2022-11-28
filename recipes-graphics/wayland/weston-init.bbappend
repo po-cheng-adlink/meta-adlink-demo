@@ -4,15 +4,15 @@ DESCRIPTION= "Replace ADLINK weston.ini file to get ADLINK wallpaper on desktop 
               weston-adlink-imx8m.ini - Uses ADLINK wallpaper"
 LICENSE= "CLOSED"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-SRC_URI_append_lec-imx6-1 += "file://weston-adlink-imx6.ini"
-SRC_URI_append_lec-imx6-2 += "file://weston-adlink-imx6.ini"
-SRC_URI_append_mx8mq += "file://weston-adlink-imx8m.ini"
-SRC_URI_append_lec-imx8mp += "file://weston-adlink-imx8mp.ini"
-SRC_URI_append_lec-imx8mm += "file://weston-adlink-imx8mm.ini"
+SRC_URI_append:lec-imx6-1 += "file://weston-adlink-imx6.ini"
+SRC_URI_append:lec-imx6-2 += "file://weston-adlink-imx6.ini"
+SRC_URI_append:mx8mq += "file://weston-adlink-imx8m.ini"
+SRC_URI_append:lec-imx8mp += "file://weston-adlink-imx8mp.ini"
+SRC_URI_append:lec-imx8mm += "file://weston-adlink-imx8mm.ini"
 
-do_install_append() {
+do_install:append() {
 
 if ${@bb.utils.contains('TARGET_ARCH', 'arm', 'true', 'false', d)}; then # LEC-i.MX6
    install ${WORKDIR}/weston-adlink-imx6.ini ${D}${sysconfdir}/xdg/weston/weston.ini

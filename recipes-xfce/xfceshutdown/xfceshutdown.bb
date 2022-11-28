@@ -16,7 +16,7 @@ do_install() {
 }
 
 
-python populate_packages_prepend (){
+python populate_packages:prepend (){
 }
 
 do_package() {
