@@ -36,6 +36,9 @@ do_install() {
     fi
     install -d "${D}${systemd_unitdir}/system"
     install -m 0644 "${WORKDIR}/adlink-startup.service" "${D}${systemd_unitdir}/system/adlink-startup.service"
+    #enable the service
+    install -d ${D}${sysconfdir}/systemd/system/multi-user.target.wants/
+    ln -sf ${systemd_unitdir}/system/adlink-startup.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/adlink-startup.service
   else
     install -d "${D}${sysconfdir}/init.d"
     if ${@bb.utils.contains('MACHINE', 'intel-corei7-64', 'true', 'false', d)}; then
@@ -47,7 +50,7 @@ do_install() {
   fi
 }
 
-FILES_${PN} += "\
+FILES:${PN} += "\
     ${systemd_unitdir}/system-preset \
     ${sysconfdir}/init.d \
     ${datadir}/dbus-1/system-services/com.intel.adlink.Tabrmd.service \
