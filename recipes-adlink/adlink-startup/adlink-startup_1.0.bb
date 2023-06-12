@@ -21,9 +21,9 @@ SYSTEMD_AUTO_ENABLE_${PN} = "enable"
 INITSCRIPT_NAME = "adlink-startup"
 INITSCRIPT_PARAMS = "start 99 2 3 4 5 . stop 19 0 1 6 ."
 
-USERADD_PACKAGES = "${PN}"
-GROUPADD_PARAM_${PN} = "root"
-USERADD_PARAM_${PN} = "--system -M -d /var/lib/adlink -s /bin/false -g root root"
+USERADD_PACKAGES = "adlink-startup"
+GROUPADD_PARAM_adlink-startup = "root"
+USERADD_PARAM_adlink-startup = "--system -M -d /var/lib/adlink -s /bin/false -g root root"
 
 do_install() {
   if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then

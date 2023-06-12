@@ -17,9 +17,9 @@ SYSTEMD_AUTO_ENABLE_${PN} = "disable"
 INITSCRIPT_NAME = "vmportforward"
 INITSCRIPT_PARAMS = "start 99 2 3 4 5 . stop 19 0 1 6 ."
 
-USERADD_PACKAGES = "${PN}"
-GROUPADD_PARAM_${PN} = "root"
-USERADD_PARAM_${PN} = "--system -M -d /var/lib/adlink -s /bin/false -g root root"
+USERADD_PACKAGES = "libvirt-jenkins"
+GROUPADD_PARAM_libvirt-jenkins = "root"
+USERADD_PARAM_libvirt-jenkins = "--system -M -d /var/lib/adlink -s /bin/false -g root root"
 
 do_install() {
     install -d "${D}${sysconfdir}/libvirt/hooks"
