@@ -11,7 +11,7 @@ SRCOPTIONS = ";protocol=http"
 #
 # packagegroup-lava contain libraries/tools needed for lava-dispatcher-host
 #
-RDEPENDS_${PN} += "python3 ${lava-dispatcher-host-rdepends} lava-common"
+RDEPENDS_${PN} += "python3 ${lava-dispatcher-host-rdepends} lava-common python3-uvicorn python3-fastapi"
 
 DISTUTILS_BUILD_ARGS = "lava-dispatcher-host"
 
