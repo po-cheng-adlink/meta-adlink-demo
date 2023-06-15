@@ -47,6 +47,7 @@ CORE_IMAGE_EXTRA_INSTALL += " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'wifi', 'wpa-supplicant iw', '', d)} \
     ipxe-bin dnsmasq python3-pyudev python3-pyserial python3-flask python3-psutil \
     docker-build-lava-dispatcher docker-startup-service docker-discovery-service \
+    pdu-startup-service \
 "
 
 CORE_IMAGE_EXTRA_INSTALL_append_raspberrypi3-64 = " raspi-gpio rpi-gpio"

@@ -1,0 +1,11 @@
+[Unit]
+Description=Powr Distribution Via GPIO control
+
+[Service]
+Type=oneshot
+ExecStart=-/bin/sh -c 'gpio set 22,23,24,25 op pn dl'
+ExecStartPre=-/bin/sh -c 'ln -s $(which raspi-gpio) /usr/bin/gpio'
+
+[Install]
+WantedBy=multi-user.target
+
