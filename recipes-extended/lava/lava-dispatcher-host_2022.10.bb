@@ -21,6 +21,7 @@ do_install_append () {
 	install -d ${D}${sysconfdir}/systemd/system/multi-user.target.wants/
 	ln -sf ${systemd_unitdir}/system/lava-dispatcher-host.socket ${D}${sysconfdir}/systemd/system/sockets.target.wants/lava-dispatcher-host.socket
 	ln -sf ${systemd_unitdir}/system/lava-dispatcher-host.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/lava-dispatcher-host.service
+	ln -sf ${systemd_unitdir}/system/lava-dispatcher-rest.service ${D}${sysconfdir}/systemd/system/multi-user.target.wants/lava-dispatcher-rest.service
 }
 
 FILES_${PN} = "${sysconfdir} ${libdir} ${datadir} ${bindir} ${base_libdir} ${localstatedir}"
