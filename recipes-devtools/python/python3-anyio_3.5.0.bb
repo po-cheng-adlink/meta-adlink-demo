@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit pypi setuptools3
 
+RDEPENDS_${PN} += "python3-sniffio"
+
 do_compile_prepend () {
         sed -e "s|use_scm_version=True|version='${PV}'|g" -i ${S}/setup.py
         sed -e "s|setuptools_scm|setuptools|g" -i ${S}/setup.py
