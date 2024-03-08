@@ -125,8 +125,7 @@ python () {
 }
 
 # multiple dependancies on container images
-#DEPENDS += "${LOCAL_CONTAINER_IMAGES}"
-DEPENDS += "docker-build-lava-dispatcher"
+DEPENDS += "${LOCAL_CONTAINER_IMAGES}"
 do_postfetch () {
 	mkdir -p ${S}/container
 	if [ -z "${LOCAL_CONTAINER_IMAGES}" ]; then
