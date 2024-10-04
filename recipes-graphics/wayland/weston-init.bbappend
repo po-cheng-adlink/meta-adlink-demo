@@ -14,11 +14,6 @@ update_background() {
 	update_file "\[shell\]" "\[shell\]\nbackground-image=/usr/share/weston/${WESTON_BACKGROUND_IMAGE}\nbackground-type=scale" ${D}${sysconfdir}/xdg/weston/weston.ini
 }
 
-update_chromium_launcher() {
-	bbnote "Add \n[launcher]\nicon=/usr/share/icons/hicolor/24x24/apps/chromium.png\npath=/usr/bin/chromium --no-sandbox\n to $3"
-	printf "\n[launcher]\nicon=/usr/share/icons/hicolor/24x24/apps/chromium.png\npath=/usr/bin/chromium --no-sandbox\n" >> ${D}${sysconfdir}/xdg/weston/weston.ini
-}
-
 do_install:append() {
 	case "${MACHINE}" in
 	lec-*)
@@ -26,7 +21,6 @@ do_install:append() {
 		;;
 	sp2-*)
 		update_background
-		update_chromium_launcher
 		;;
 	esac
 }
