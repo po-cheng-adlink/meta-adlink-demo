@@ -1,0 +1,18 @@
+[Unit]
+Description=launch local browser in kiosk mode
+After=network.target weston.service
+Wants=weston.service
+
+[Service]
+Type=simple
+Environment="XDG_RUNTIME_DIR=/run/user/0"
+Environment="WAYLAND_DISPLAY=/run/wayland-0"
+# /usr/bin/chromium -> /usr/lib/chromium/chromium-wrapper with CHROME_EXTRA_ARGS
+ExecStart=su - weston -c "/usr/bin/chromium --user-data-dir=/home/weston"
+ExecStop=/usr/bin/pkill -15 chromium
+ExecStopPost=/usr/bin/pkill -15 weston
+TimeoutSec=infinity
+
+[Install]
+WantedBy=multi-user.target
+
