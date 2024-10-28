@@ -8,4 +8,10 @@ do_install:append() {
    install ${WORKDIR}/${WESTON_BACKGROUND_IMAGE} ${D}${datadir}/weston
 }
 
-FILES:${PN} += "${datadir/weston}"
+SRC_URI += " \
+	${@bb.utils.contains('IMAGE_FEATURES', 'remote', 'file://0001-ci-backend-vnc-update-to-Neat-VNC-0.7.0.patch', '', d)} \
+"
+
+PACKAGECONFIG:append = " ${@bb.utils.contains('IMAGE_FEATURES', 'remote', 'vnc rdp', '', d)}"
+
+FILES:${PN} += "${datadir/weston} ${sysconfdir}/pam.d/weston-remote-access"

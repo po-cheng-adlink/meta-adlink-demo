@@ -20,6 +20,11 @@ update_weston_owner() {
     update_file "Group=root" "Group=weston" ${D}${systemd_system_unitdir}/weston.service
 }
 
+update_weston_remote() {
+   # setup weston service as remote desktop connection.
+   sed -E "s|(ExecStart=.*)|#\1\nExecStart=/usr/bin/weston --log=\${XDG_RUNTIME_DIR}/weston.log --modules=systemd-notify.so,screen-share.so --backend=rdp-backend.so --rdp-tls-cert=${sysconfdir}/remote-desktop/keys/${REMOTE_PKI_KEYNAME}.crt --rdp-tls-key=${sysconfdir}/remote-desktop/keys/${REMOTE_PKI_KEYNAME}.key --no-clients-resize|g" -i ${D}${systemd_system_unitdir}/weston.service
+}
+
 update_virtual_keyboard() {
     # setup virtual keyboard
     echo "\n[input-method]" >> ${D}${sysconfdir}/xdg/weston/weston.ini
@@ -49,6 +54,9 @@ do_install:append() {
 	case "${IMAGE_FEATURES}" in
 	*kiosk-mode*)
 		update_kiosk_shell
+		;;
+	*remote*)
+		update_weston_remote
 		;;
 	esac
 }
