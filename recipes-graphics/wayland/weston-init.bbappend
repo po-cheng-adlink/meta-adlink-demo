@@ -1,6 +1,15 @@
 # Add background setting to [shell] section and update chromium launcher
 
 WESTON_BACKGROUND_IMAGE ?= "adlink.jpg"
+REMOTE_PKI_KEYNAME ?= "remote-desktop"
+REMOTE_PKI_CHALLENGE ?= "${MACHINE}"
+CERT_COUNTRY ?= "TW"
+CERT_STATE ?= "TaoYuan"
+CERT_CITY ?= "Guishan"
+CERT_NAME ?= "*.adlinktech.com"
+CERT_CORP ?= "adlink"
+
+DEPENDS:append = " openssl-native"
 
 update_file() {
     if ! grep -q "$1" $3; then
@@ -40,6 +49,17 @@ update_kiosk_shell() {
     update_file "\[core\]" "\[core\]\n#shell=kiosk-shell.so" ${D}${sysconfdir}/xdg/weston/weston.ini
 }
 
+do_gen_key() {
+    mkdir -p ${B}/CA/private/
+    cd ${B}/CA/
+    openssl genrsa -out private/cakey.pem 2048
+    openssl req -new -x509 -nodes -days 365000 -key private/cakey.pem -out cacert.pem -subj "/C=${CERT_COUNTRY}/ST=${CERT_STATE}/L=${CERT_CITY}/O=${CERT_CORP}/CN=${CERT_NAME}/challengePassword=${REMOTE_PKI_CHALLENGE}"
+    openssl genrsa -out ${REMOTE_PKI_KEYNAME}.key 2048
+    openssl req -new -key ${REMOTE_PKI_KEYNAME}.key -out ${REMOTE_PKI_KEYNAME}.csr -subj "/C=${CERT_COUNTRY}/ST=${CERT_STATE}/L=${CERT_CITY}/O=${CERT_CORP}/CN=${CERT_NAME}/challengePassword=${REMOTE_PKI_CHALLENGE}"
+    openssl x509 -req -days 365 -in ${REMOTE_PKI_KEYNAME}.csr -out ${REMOTE_PKI_KEYNAME}.crt -CA cacert.pem -CAkey private/cakey.pem
+}
+addtask gen_key before do_install after do_compile
+
 do_install:append() {
 	update_weston_owner
 	update_virtual_keyboard
@@ -57,7 +77,16 @@ do_install:append() {
 		;;
 	*remote*)
 		update_weston_remote
+		# rdp/vnc keys
+		install -m 0755 -d ${D}${sysconfdir}/remote-desktop/keys/private
+		chown weston:weston -R ${D}${sysconfdir}/remote-desktop/keys/
+		install -m 0644 ${B}/CA/cacert.pem ${D}${sysconfdir}/remote-desktop/keys/
+		install -m 0644 ${B}/CA/private/cakey.pem ${D}${sysconfdir}/remote-desktop/keys/private/
+		install -m 0644 ${B}/CA/${REMOTE_PKI_KEYNAME}.key ${D}${sysconfdir}/remote-desktop/keys/
+		install -m 0644 ${B}/CA/${REMOTE_PKI_KEYNAME}.crt ${D}${sysconfdir}/remote-desktop/keys/
 		;;
 	esac
 }
+
+FILES:${PN} += "${sysconfdir}/remote-desktop/keys"
 
