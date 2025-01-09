@@ -74,7 +74,7 @@ do_compile () {
 	# We force the PATH to be the standard linux path in order to use the host's
 	# docker daemon instead of the result of docker-native. This avoids version mismatches
 	DOCKER=$(PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" which docker)
-	DOCKERCOMPOSE=$(PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" which docker-compose)
+	DOCKERCOMPOSE="${DOCKER} compose"
 
 	bbnote "Remove existing docker image..."
 	# docker-compose build the docker image
