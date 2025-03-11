@@ -11,6 +11,8 @@ CERT_CORP ?= "adlink"
 
 ROTATE_DESKTOP_ANGLE ?= "0"
 
+PACKAGECONFIG[vnc] = ",,"
+
 DEPENDS:append = " openssl-native"
 
 update_file() {
@@ -35,8 +37,17 @@ update_weston_owner() {
 }
 
 update_weston_remote() {
-   # setup weston service as remote desktop connection.
-   sed -E "s|(ExecStart=.*)|#\1\nExecStart=/usr/bin/weston --log=\${XDG_RUNTIME_DIR}/weston.log --modules=systemd-notify.so,screen-share.so --backend=rdp-backend.so --rdp-tls-cert=${sysconfdir}/remote-desktop/keys/${REMOTE_PKI_KEYNAME}.crt --rdp-tls-key=${sysconfdir}/remote-desktop/keys/${REMOTE_PKI_KEYNAME}.key --no-clients-resize|g" -i ${D}${systemd_system_unitdir}/weston.service
+    # setup weston service as remote desktop connection.
+    sed -E "s|(ExecStart=.*)|#\1\nExecStart=/usr/bin/weston --log=\${XDG_RUNTIME_DIR}/weston.log --modules=systemd-notify.so,screen-share.so|g" -i ${D}${systemd_system_unitdir}/weston.service
+    # for screen-share, run command as
+    # /usr/bin/weston --backend=vnc-backend.so
+    #                 --vnc-tls-cert=/etc/remote-desktop/keys/remote-desktop.crt
+    #                 --vnc-tls-key=/etc/remote-desktop/keys/remote-desktop.key
+    #                 --shell=fullscreen-shell.so
+    if [ "${@bb.utils.contains('PACKAGECONFIG', 'vnc', 'yes', 'no', d)}" = "yes" ]; then
+        sed -E "s|^command=${bindir}/weston .*|command=/usr/bin/weston --backend=vnc-backend.so --vnc-tls-cert=/etc/remote-desktop/keys/remote-desktop.crt --vnc-tls-key=/etc/remote-desktop/keys/remote-desktop.key --shell=fullscreen-shell.so|g" -i ${D}${sysconfdir}/xdg/weston/weston.ini
+        sed -E "s|#start-on-startup=.*|start-on-startup=true|g" -i ${D}${sysconfdir}/xdg/weston/weston.ini
+    fi
 }
 
 update_virtual_keyboard() {
