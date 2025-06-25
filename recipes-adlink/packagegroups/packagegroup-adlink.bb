@@ -90,7 +90,10 @@ RDEPENDS:packagegroup-adlink-benchmarks = " \
 "
 
 RDEPENDS_GROUP_EXTRA_WIFI ?= ""
-RDEPENDS_GROUP_EXTRA_WIFI:sp2-imx8mp = "crda wireless-regdb-static"
+RDEPENDS_GROUP_EXTRA_WIFI:sp2-imx8mp = " \
+    wireless-regdb-static \
+    ${@bb.utils.contains('DISTRO_CODENAME', 'kirkstone', 'crda', '', d)} \
+"
 
 #
 # packages added by adlink tools for wifi
