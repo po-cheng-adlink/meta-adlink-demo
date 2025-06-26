@@ -43,8 +43,8 @@ IMAGE_FSTYPES:append = " wic.gz wic.bmap"
 IMAGE_FSTYPES:remove = "wic wic.xz wic.zst wic.md5sum sdcard sdcard.bz2 sdcard.xz sdcard.md5sum"
 IMAGE_BOOT_FILES:append = " \
 	splash.bmp;splash.bmp \
-	adlink-image-initrd-${MACHINE}.cpio.gz;rootfs.cpio.gz \
-	adlink-image-initrd-${MACHINE}.cpio.gz.u-boot;rootfs.cpio.gz.u-boot \
+	adlink-image-initrd-${MACHINE}${IMAGE_NAME_SUFFIX}.cpio.gz;rootfs.cpio.gz \
+	adlink-image-initrd-${MACHINE}${IMAGE_NAME_SUFFIX}.cpio.gz.u-boot;rootfs.cpio.gz.u-boot \
 "
 IMAGE_ROOTFS_SIZE ?= "8192"
 IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "", d)}"
