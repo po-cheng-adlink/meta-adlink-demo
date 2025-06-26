@@ -23,7 +23,7 @@ python () {
 }
 
 RDEPENDS:${PN} += " \
-	bmap-tools \
+	${@bb.utils.contains('DISTRO_CODENAME', 'kirkstone', 'bmap-tools', 'bmaptool', d)} \
 	bash \
 	${GUI_DIALOG_CMD} \
 	"

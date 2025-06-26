@@ -52,7 +52,7 @@ RDEPENDS:packagegroup-lava-coordinator = ""
 # packagegroup-lava contain libraries/tools needed for lava-dispatcher
 #
 RDEPENDS:packagegroup-lava-dispatcher = " \
-    bmap-tools \
+    ${@bb.utils.contains('DISTRO_CODENAME', 'kirkstone', 'bmap-tools', 'bmaptool', d)} \
     python3-aiohttp \
     python3-configobj \
     python3-guestfs \

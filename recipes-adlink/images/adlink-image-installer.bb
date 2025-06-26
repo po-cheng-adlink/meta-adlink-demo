@@ -35,9 +35,9 @@ require ${INSTALLER_BASE_IMAGE_INCLUDE_PATH}${INSTALLER_BASE_IMAGE}.bb
 # image related
 GUI_DIALOG_CMD ?= "yad"
 BOOTLOADER_TOOLS = ""
-BOOTLOADER_TOOLS:arm = "u-boot-fw-utils"
-BOOTLOADER_TOOLS:aarch64 = "u-boot-fw-utils"
-IMAGE_INSTALL:append = " bmap-tools installer-scripts ${GUI_DIALOG_CMD} ${BOOTLOADER_TOOLS}"
+BOOTLOADER_TOOLS:arm = "u-boot-fw-utils ${@bb.utils.contains('DISTRO_CODENAME', 'kirkstone', 'bmap-tools', 'bmaptool', d)}"
+BOOTLOADER_TOOLS:aarch64 = "u-boot-fw-utils ${@bb.utils.contains('DISTRO_CODENAME', 'kirkstone', 'bmap-tools', 'bmaptool', d)}"
+IMAGE_INSTALL:append = " installer-scripts ${GUI_DIALOG_CMD} ${BOOTLOADER_TOOLS}"
 IMAGE_LINGUAS = ""
 IMAGE_FSTYPES:append = " wic.gz wic.bmap"
 IMAGE_FSTYPES:remove = "wic wic.xz wic.zst wic.md5sum sdcard sdcard.bz2 sdcard.xz sdcard.md5sum"

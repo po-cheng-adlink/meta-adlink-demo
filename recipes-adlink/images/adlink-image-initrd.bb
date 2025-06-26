@@ -13,7 +13,7 @@ PACKAGE_INSTALL = " \
 	kernel-modules \
 	udev \
 	mmc-utils \
-	bmap-tools \
+	${@bb.utils.contains('DISTRO_CODENAME', 'kirkstone', 'bmap-tools', 'bmaptool', d)} \
 	installer-scripts \
 	"
 
