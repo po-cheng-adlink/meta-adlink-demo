@@ -12,6 +12,8 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 S = "${WORKDIR}"
 
+IMAGE_NAME_SUFFIX ??= ".rootfs"
+
 python () {
     # We need INSTALLER_TARGET_IMAGE specified
     tgtimg = d.getVar("INSTALLER_TARGET_IMAGE", expand=True)
@@ -28,9 +30,9 @@ do_postfetch () {
   for type in ${IMAGE_FSTYPES}; do
     case ${type} in
     wic*)
-      if [ -f ${DEPLOY_DIR_IMAGE}/${INSTALLER_TARGET_IMAGE}-${MACHINE}.${type} ]; then
-        bbnote "copy to ${B}/${INSTALLER_TARGET_IMAGE}.${type}..."
-        cp ${DEPLOY_DIR_IMAGE}/${INSTALLER_TARGET_IMAGE}-${MACHINE}.${type} ${S}/${INSTALLER_TARGET_IMAGE}.${type}
+      if [ -f ${DEPLOY_DIR_IMAGE}/${INSTALLER_TARGET_IMAGE}-${MACHINE}${IMAGE_NAME_SUFFIX}.${type} ]; then
+        bbnote "copy to ${B}/${INSTALLER_TARGET_IMAGE}${IMAGE_NAME_SUFFIX}.${type}..."
+        cp ${DEPLOY_DIR_IMAGE}/${INSTALLER_TARGET_IMAGE}-${MACHINE}${IMAGE_NAME_SUFFIX}.${type} ${S}/${INSTALLER_TARGET_IMAGE}.${type}
       fi
       ;;
     esac
