@@ -8,8 +8,12 @@ DEPENDS += " \
 
 SRC_URI = "\
     file://adlink-startup.service \
-    file://${MACHINE}-startup \
 "
+SRC_URI:append:intel-corei7-64 = " file://intel-corei7-64-startup"
+SRC_URI:append:lec-imx8mm = " file://lec-imx8mm-startup"
+SRC_URI:append:lec-imx8mp = " file://lec-imx8mp-startup"
+SRC_URI:append:lec-imx8m = " file://lec-imx8m-startup"
+SRC_URI:append:sp2-imx8mp = " file://sp2-imx8mp-startup"
 
 inherit pkgconfig systemd update-rc.d useradd
 
