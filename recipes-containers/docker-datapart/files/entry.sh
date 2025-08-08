@@ -26,8 +26,14 @@ useradd -u "$USER_ID" -g "$USER_GID" -p "" docker-datapart-user || true
 mkdir -p $DATA_VOLUME/docker
 # Start docker
 echo "[INFO] Starting docker daemon with $STORAGE_DRIVER storage driver."
-dockerd --data-root ${DATA_VOLUME}/docker -s "${STORAGE_DRIVER}" -b none --experimental &
-echo "[INFO] Waiting for docker to become ready.."
+if [ -n ${STORAGE_DRIVER} ]; then
+    dockerd --data-root ${DATA_VOLUME}/docker -s "${STORAGE_DRIVER}" -b none --experimental &
+else
+    dockerd --data-root ${DATA_VOLUME}/docker -b none --experimental &
+fi
+DOCKERD_PID=$!
+
+echo "[INFO] Waiting for dockerd (pid: $DOCKERD_PID) to become ready.."
 STARTTIME="$(date +%s)"
 ENDTIME="$STARTTIME"
 while [ ! -S /var/run/docker.sock ]
@@ -39,6 +45,7 @@ do
         exit 1
     fi
 done
+
 echo "[INFO] Start building docker-datapart..."
 echo "[INFO] Passed in Params:"
 echo "[INFO]        DOCKERHUB_REGISTRY: ${DOCKERHUB_REGISTRY}, DOCKERHUB_USER: ${DOCKERHUB_USER}, DOCKERHUB_PASSWORD: ${DOCKERHUB_PASSWORD}"
@@ -66,7 +73,11 @@ fi
 # Pull in arch specific hello-world image and tag it healthcheck-image
 if [ -n "${HEALTHCHECK_REPOSITORY}" ]; then
   echo "[INFO] Pulling ${HEALTHCHECK_REPOSITORY}:latest..."
-  docker pull --platform="${TARGET_PLATFORM}" "${HEALTHCHECK_REPOSITORY}"
+  if [ $(uname -m) = "x86_64" ]; then
+    docker pull --platform="${TARGET_PLATFORM}" "${HEALTHCHECK_REPOSITORY}"
+  else
+    docker pull "${HEALTHCHECK_REPOSITORY}"
+  fi
   docker tag "${HEALTHCHECK_REPOSITORY}" ${HEALTHCHECK_EXPORT_IMAGE//${IMAGE_SUFFIX}}
   docker rmi "${HEALTHCHECK_REPOSITORY}"
   docker save ${HEALTHCHECK_EXPORT_IMAGE//${IMAGE_SUFFIX}} > ${BUILD}/${HEALTHCHECK_EXPORT_IMAGE}
@@ -87,10 +98,11 @@ fi
 echo "[INFO] Show Docker Images..."
 docker images
 
-echo "[INFO] Stop building docker-datapart..."
-kill -TERM "$(cat /var/run/docker.pid)"
+DPID=$(cat /var/run/docker.pid)
+echo "[INFO] Stop building docker-datapart ($DPID)..."
+kill -TERM "$DPID"
 # don't let wait() error out and crash the build if the docker daemon has already been stopped
-wait "$(cat /var/run/docker.pid)" || true
+wait "$DPID" || true
 
 # Export the final data filesystem
 echo "[INFO] Compress docker data partition..."
